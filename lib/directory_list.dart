@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:calibre_carte/providers/color_theme_provider.dart';
+
 import 'package:path/path.dart' as path;
 
 import 'directory_picker.dart';
@@ -38,6 +41,7 @@ class _DirectoryListState extends State<DirectoryList> {
 
   List<Widget> _buildDirectories(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    ColorTheme colorTheme = Provider.of<ColorTheme>(context, listen: false);
 
     if (directoryList == null) {
       return [
@@ -52,7 +56,7 @@ class _DirectoryListState extends State<DirectoryList> {
         _buildBackNav(context),
         Expanded(
           child: Center(
-              child: Text('Directory is empty!', textAlign: TextAlign.center)),
+              child: Text('Directory is empty!', textAlign: TextAlign.center, style: TextStyle(color: colorTheme.directoryPickerText),)),
         )
       ];
     } else {
@@ -64,7 +68,7 @@ class _DirectoryListState extends State<DirectoryList> {
               ..addAll(directoryList.map((directory) {
                 return ListTile(
                   leading: Icon(Icons.folder, color: theme.primaryColor),
-                  title: Text(_getDirectoryName(directory)),
+                  title: Text(_getDirectoryName(directory), style: TextStyle(color: colorTheme.directoryPickerText),),
                   onTap: () => _setDirectory(directory),
                 );
               })),

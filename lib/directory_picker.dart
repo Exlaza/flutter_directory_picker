@@ -143,6 +143,7 @@ class _DirectoryPickerDialogState extends State<_DirectoryPickerDialog>
 
   Widget _buildBody(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+//    ColorTheme colorTheme = Provider.of(context, listen: false);
 
     if (status == null) {
       return Padding(
