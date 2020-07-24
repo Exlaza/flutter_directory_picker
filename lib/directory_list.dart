@@ -31,10 +31,11 @@ class _DirectoryListState extends State<DirectoryList> {
 
   Widget _buildBackNav(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    ColorTheme colorTheme = Provider.of<ColorTheme>(context, listen: false);
 
     return ListTile(
-      leading: Icon(Icons.folder, color: theme.primaryColor),
-      title: Text('..'),
+      leading: Icon(Icons.folder, color: colorTheme.settingsIcon),
+      title: Text('..',style: TextStyle(color: colorTheme.directoryPickerText)),
       onTap: () => _setDirectory(currentDirectory.parent),
     );
   }
@@ -67,7 +68,7 @@ class _DirectoryListState extends State<DirectoryList> {
             children: [_buildBackNav(context)]
               ..addAll(directoryList.map((directory) {
                 return ListTile(
-                  leading: Icon(Icons.folder, color: theme.primaryColor),
+                  leading: Icon(Icons.folder, color: colorTheme.settingsIcon),
                   title: Text(_getDirectoryName(directory), style: TextStyle(color: colorTheme.directoryPickerText),),
                   onTap: () => _setDirectory(directory),
                 );
@@ -80,6 +81,7 @@ class _DirectoryListState extends State<DirectoryList> {
 
   Widget _buildHeader(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    ColorTheme colorTheme = Provider.of<ColorTheme>(context, listen: false);
 
     return Container(
       child: Row(
@@ -87,10 +89,10 @@ class _DirectoryListState extends State<DirectoryList> {
           Expanded(
             child: Column(
               children: [
-                Text('Selected directory', style: theme.textTheme.subtitle),
+                Text('Selected directory', style: TextStyle(color: colorTheme.directoryPickerText)),
                 SizedBox(height: spacing / 2),
                 Text(currentDirectory?.path ?? '',
-                    style: theme.textTheme.caption)
+                    style: TextStyle(color: colorTheme.directoryPickerText))
               ],
               crossAxisAlignment: CrossAxisAlignment.start,
             ),
@@ -98,7 +100,7 @@ class _DirectoryListState extends State<DirectoryList> {
           data.allowFolderCreation
               ? Padding(
                   child: IconButton(
-                      color: theme.primaryColor,
+                      color: colorTheme.settingsIcon,
                       icon: Icon(Icons.create_new_folder),
                       onPressed: _createNewFolder),
                   padding: EdgeInsets.only(left: spacing / 2))
@@ -106,7 +108,7 @@ class _DirectoryListState extends State<DirectoryList> {
           Padding(
             padding: EdgeInsets.only(left: spacing / 2),
             child: IconButton(
-                color: theme.primaryColor,
+                color: colorTheme.settingsIcon,
                 icon: Icon(Icons.check),
                 onPressed: () => Navigator.pop(context, currentDirectory)),
           )
@@ -115,7 +117,7 @@ class _DirectoryListState extends State<DirectoryList> {
       ),
       decoration: BoxDecoration(
           border:
-              Border(bottom: BorderSide(color: theme.primaryColor, width: 2))),
+              Border(bottom: BorderSide(color: colorTheme.settingsIcon, width: 2))),
       padding: EdgeInsets.all(spacing),
     );
   }
@@ -223,6 +225,7 @@ class _NewFolderDialogState extends State<_NewFolderDialog> {
 
   @override
   Widget build(BuildContext context) {
+    ColorTheme colorTheme = Provider.of<ColorTheme>(context, listen: false);
     return AlertDialog(
       backgroundColor: widget.data.backgroundColor,
       content: TextField(
@@ -232,15 +235,15 @@ class _NewFolderDialogState extends State<_NewFolderDialog> {
       ),
       actions: <Widget>[
         FlatButton(
-            child: Text('Cancel'),
+            child: Text('Cancel',style: TextStyle(color: colorTheme.directoryPickerText)),
             onPressed: isSubmitting ? null : () => Navigator.pop(context)),
         FlatButton(
-          child: Text('Create Folder'),
+          child: Text('Create Folder',style: TextStyle(color: colorTheme.directoryPickerText)),
           onPressed: isSubmitting ? null : _createDirectory,
         )
       ],
       shape: widget.data.shape,
-      title: Text('Create New Folder'),
+      title: Text('Create New Folder',style: TextStyle(color: colorTheme.directoryPickerText) ),
     );
   }
 }
